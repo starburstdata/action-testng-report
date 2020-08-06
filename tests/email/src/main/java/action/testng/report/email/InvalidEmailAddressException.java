@@ -1,4 +1,4 @@
-package action.surefire.report.email;
+package action.testng.report.email;
 
 public class InvalidEmailAddressException extends RuntimeException {
     public InvalidEmailAddressException(String message) {

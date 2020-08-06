@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="811" total="815" passed="4" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2020-08-06T09:48:56Z" name="tempto-tests" finished-at="2020-08-06T09:49:33Z" duration-ms="37378">
+    <groups>
+      <group name="profile_specific_tests">
+        <method signature="TestPostgreSql.testCreateTableAsSelect(java.lang.String)[pri:0, instance:io.prestosql.presto.tests.product.TestPostgreSql@557b6a37]" name="testCreateTableAsSelect" class="io.prestosql.presto.tests.product.TestPostgreSql"/>
+        <method signature="TestPostgreSql.testCredentialPassThrough()[pri:0, instance:io.prestosql.presto.tests.product.TestPostgreSql@557b6a37]" name="testCredentialPassThrough" class="io.prestosql.presto.tests.product.TestPostgreSql"/>
+      </group> <!-- profile_specific_tests -->
+      <group name="kerberized_postgresql">
+        <method signature="TestPostgreSql.testCreateTableAsSelect(java.lang.String)[pri:0, instance:io.prestosql.presto.tests.product.TestPostgreSql@557b6a37]" name="testCreateTableAsSelect" class="io.prestosql.presto.tests.product.TestPostgreSql"/>
+        <method signature="TestPostgreSql.testCredentialPassThrough()[pri:0, instance:io.prestosql.presto.tests.product.TestPostgreSql@557b6a37]" name="testCredentialPassThrough" class="io.prestosql.presto.tests.product.TestPostgreSql"/>
+      </group> <!-- kerberized_postgresql -->
+    </groups>
+    <test started-at="2020-08-06T09:48:56Z" name="all" finished-at="2020-08-06T09:49:33Z" duration-ms="37378">
+      <class name="io.prestosql.presto.tests.product.TestPostgreSql">
+        <test-method signature="testCreateTableAsSelect(java.lang.String)[pri:0, instance:io.prestosql.presto.tests.product.TestPostgreSql@557b6a37]" started-at="2020-08-06T15:33:57Z" name="testCreateTableAsSelect" data-provider="catalogs" finished-at="2020-08-06T15:34:09Z" duration-ms="12083" status="FAIL">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[postgresql_basic]]>
+              </value>
+            </param>
+          </params>
+          <exception class="java.lang.AssertionError">
+            <message>
+              <![CDATA[expected [true] but found [false]]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[no stacktrace]]>
+            </full-stacktrace>
+          </exception>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testCreateTableAsSelect -->
+        <test-method signature="testCreateTableAsSelect(java.lang.String)[pri:0, instance:io.prestosql.presto.tests.product.TestPostgreSql@557b6a37]" started-at="2020-08-06T15:34:09Z" name="testCreateTableAsSelect" data-provider="catalogs" finished-at="2020-08-06T15:34:16Z" duration-ms="6527" status="FAIL">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[postgresql_kerberos]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[postgresql_kerberos]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+          <exception class="java.lang.AssertionError">
+            <message>
+              <![CDATA[expected [true] but found [false]]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[no stacktrace]]>
+            </full-stacktrace>
+          </exception>
+        </test-method> <!-- testCreateTableAsSelect -->
+        <test-method signature="testCreateTableAsSelect(java.lang.String)[pri:0, instance:io.prestosql.presto.tests.product.TestPostgreSql@557b6a37]" started-at="2020-08-06T15:34:16Z" name="testCreateTableAsSelect" data-provider="catalogs" finished-at="2020-08-06T15:34:28Z" duration-ms="12362" status="FAIL">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[postgresql_pass_through]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+          <exception class="java.lang.AssertionError">
+            <message>
+              <![CDATA[expected [true] but found [false]]]>
+            </message>
+            <full-stacktrace>
+                <![CDATA[no stacktrace]]>
+            </full-stacktrace>
+          </exception>
+        </test-method> <!-- testCreateTableAsSelect -->
+        <test-method signature="testCredentialPassThrough()[pri:0, instance:io.prestosql.presto.tests.product.TestPostgreSql@557b6a37]" started-at="2020-08-06T15:34:28Z" name="testCredentialPassThrough" finished-at="2020-08-06T15:34:33Z" duration-ms="4842" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testCredentialPassThrough -->
+      </class> <!-- io.prestosql.presto.tests.product.TestPostgreSql -->
+    </test> <!-- all -->
+  </suite> <!-- tempto-tests -->
+</testng-results>

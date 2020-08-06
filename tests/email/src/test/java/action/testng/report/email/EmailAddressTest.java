@@ -1,14 +1,13 @@
-package action.surefire.report.email;
+package action.testng.report.email;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.fail;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
-import org.junit.Test;
+import static org.testng.Assert.fail;
 
 public class EmailAddressTest {
 
-    @Test
+    @Test(groups="salesforce")
     public void shouldBeGoodEnoughForSalesforce() {
         EmailAddress.of("abcdefg.hijklmnopqrstuvwxyz!#$%&'*/=?^_+-`{|}~0123456789@host.com");
     }
@@ -44,7 +43,7 @@ public class EmailAddressTest {
         EmailAddress.of("user@xn--and-6ma2c.com.ar");
     }
 
-    @Test
+    @Test(groups="rfc")
     public void shouldBeStricterThanRfc2821() {
         expectException("Abc\\@def@example.com");
         expectException("Fred\\ Bloggs@example.com");
@@ -67,6 +66,19 @@ public class EmailAddressTest {
         expectException("user.@host.com");
         expectException(".user.@host.com");
         expectException("user..name@host.com");
+    }
+
+    @Test(dataProvider = "dataProvider")
+    public void shouldFailWithDataProvider(String value) {
+        if (value.equals("this will fail")) {
+            throw new RuntimeException("Expected this to fail");
+        }
+    }
+
+    @DataProvider
+    public static Object[][] dataProvider()
+    {
+        return new Object[][] { { "this will work" }, { "this will fail" } };
     }
 
     private void expectException(String address) {

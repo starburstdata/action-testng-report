@@ -1,11 +1,10 @@
-# GitHub Action: Process maven surefire reports
+# GitHub Action: Process TestNG reports
 
-![](https://github.com/scacap/action-surefire-report/workflows/build/badge.svg)
+![](https://github.com/wendigo/action-testng-report/workflows/build/badge.svg)
 
+This action processes TestNG XML reports on pull requests and shows the result as a PR check with summary and annotations.
 
-This action processes maven surefire or failsafe XML reports on pull requests and shows the result as a PR check with summary and annotations.
-
-![Screenshot](./screenshot.png)
+This action is a modified fork of [ScaCap/action-surefire-report](https://github.com/ScaCap/action-surefire-report).
 
 ## Inputs
 
@@ -15,11 +14,23 @@ This action processes maven surefire or failsafe XML reports on pull requests an
 
 ### `report_paths`
 
-Optional. [Glob](https://github.com/actions/toolkit/tree/master/packages/glob) expression to surefire or failsafe report paths. The default is `**/surefire-reports/TEST-*.xml`.
+Optional. [Glob](https://github.com/actions/toolkit/tree/master/packages/glob) expression to TestNG report paths. The default is `**/surefire-reports/testng-results.xml`.
 
 ### `check_name`
 
 Optional. Check name to use when creating a check run. The default is `Test Report`.
+
+### `fail_if_empty`
+
+Optional. Defaults to true. Fail if there are none test results found.
+
+### `show_skipped`
+
+Optional. Defaults to false. Show skipped tests count.
+
+### `update_existing_check`
+
+Optional. Defaults to false. Instead of creating new check, update existing check `check_name`.
 
 ## Example usage
 
@@ -38,18 +49,7 @@ jobs:
       - name: Build and Run Tests
         run: mvn test --batch-mode -Dmaven.test.failure.ignore=true
       - name: Publish Test Report
-        uses: scacap/action-surefire-report@v1
+        uses: wendigo/action-testng-report@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
-
-## Tips for Gradle
-
-Use junit report inside test block of gradle config:
-```
-reports {
-  junitXml.isEnabled = true
-}
-```
-
-and set `report_paths: '**/build/test-results/test/TEST-*.xml'`

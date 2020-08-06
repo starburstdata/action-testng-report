@@ -1,4 +1,4 @@
-package action.surefire.report.calc;
+package action.testng.report.calc;
 
 public final class StringUtils {
 

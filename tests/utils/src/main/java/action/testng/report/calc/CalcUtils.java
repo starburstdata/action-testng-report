@@ -1,4 +1,4 @@
-package action.surefire.report.calc;
+package action.testng.report.calc;
 
 import static java.math.BigDecimal.ZERO;
 import static java.math.RoundingMode.HALF_EVEN;

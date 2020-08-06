@@ -1,34 +1,30 @@
 {
-  "name": "action-surefire-report",
+  "name": "action-testng-report",
   "version": "1.0.0",
   "description": "",
-  "author": "Scalable Capital",
+  "author": "Mateusz 'Serafin' Gajewski",
   "license": "Apache-2.0",
   "main": "index.js",
-  "homepage": "https://github.com/ScaCap/action-surefire-report#readme",
+  "homepage": "https://github.com/wendigo/action-testng-report#readme",
   "scripts": {
     "eslint": "eslint .",
+    "eslint-fix": "eslint --fix .",
     "package": "ncc build index.js -o dist",
     "test": "jest",
-    "test-ci": "jest --ci --reporters=jest-junit"
+    "test-ci": "jest --ci"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ScaCap/action-surefire-report"
+    "url": "git+https://github.com/wendigo/action-testng-report"
   },
   "keywords": [
     "GitHub",
     "Actions",
-    "Junit",
+    "TestNG",
     "Surefire"
   ],
   "bugs": {
-    "url": "https://github.com/ScaCap/action-surefire-report/issues"
-  },
-  "jest-junit": {
-    "suiteNameTemplate": "{filepath}",
-    "classNameTemplate": "{classname}",
-    "titleTemplate": "{title}"
+    "url": "https://github.com/wendigo/action-testng-report/issues"
   },
   "dependencies": {
     "@actions/core": "1.2.4",
@@ -42,7 +38,6 @@
     "enzyme": "3.11.0",
     "eslint": "7.0.0",
     "jest": "26.0.1",
-    "jest-junit": "10.0.0",
     "nock": "12.0.3"
   }
 }
