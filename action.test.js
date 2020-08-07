@@ -11,7 +11,7 @@ const {
     masterSuccessWithSkipped
 } = require('./action.test.fixtures');
 
-jest.setTimeout(20000);
+jest.setTimeout(200000);
 
 let inputs = {};
 

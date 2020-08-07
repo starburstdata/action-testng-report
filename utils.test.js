@@ -1,5 +1,7 @@
 const { resolveFileAndLine, resolvePath, parseFile } = require('./utils');
 
+jest.setTimeout(200000);
+
 describe('resolveFileAndLine', () => {
     it('should default to 1 if no line found', () => {
         const { filename, line } = resolveFileAndLine('someClassName', 'someMethodName', 'not a stacktrace');

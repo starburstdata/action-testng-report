@@ -16,6 +16,7 @@ jobs:
       - run: cd tests && mvn clean test --batch-mode -Dmaven.test.failure.ignore=true
       - name: Update existing check report
         uses: starburstdata/action-testng-report@master
+        if: github.ref == 'refs/heads/master'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           check_name: build
@@ -23,6 +24,7 @@ jobs:
           report_paths: "**/testng-results.xml"
       - name: Create new check report
         uses: starburstdata/action-testng-report@master
+        if: github.ref == 'refs/heads/master'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           check_name: new check name
