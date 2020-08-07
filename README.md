@@ -1,6 +1,6 @@
 # GitHub Action: Process TestNG reports
 
-![](https://github.com/wendigo/action-testng-report/workflows/build/badge.svg)
+![](https://github.com/starburstdata/action-testng-report/workflows/build/badge.svg)
 
 This action processes TestNG XML reports on pull requests and shows the result as a PR check with summary and annotations.
 
@@ -49,7 +49,7 @@ jobs:
       - name: Build and Run Tests
         run: mvn test --batch-mode -Dmaven.test.failure.ignore=true
       - name: Publish Test Report
-        uses: wendigo/action-testng-report@v1
+        uses: starburstdata/action-testng-report@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 ```

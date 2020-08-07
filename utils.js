@@ -60,7 +60,7 @@ const resolvePath = async filename => {
 };
 
 const formatMilliseconds = milliseconds => {
-    let hour, minute, seconds, ms;
+    let hour, minute, seconds;
 
     if (milliseconds < 1000) {
         return `${milliseconds}ms`;
@@ -72,16 +72,14 @@ const formatMilliseconds = milliseconds => {
     hour = Math.floor(minute / 60);
     minute = minute % 60;
 
-    ms = milliseconds - (seconds * 1000) - (minute * 1000 * 60) - (hour * 1000 * 60 * 60);
-
     return [
         {val: hour, unit: 'h'},
         {val: minute, unit: 'm'},
         {val: seconds, unit: 's'}
     ]
-    .filter(value => value.val > 0 || value.unit == 'ms')
-    .map(value => `${value.val}${value.unit}`)
-    .join(' ');
+        .filter(value => value.val > 0)
+        .map(value => `${value.val}${value.unit}`)
+        .join(' ');
 }
 
 const toArray = value => {

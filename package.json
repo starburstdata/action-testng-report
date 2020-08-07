@@ -5,7 +5,7 @@
   "author": "Mateusz 'Serafin' Gajewski",
   "license": "Apache-2.0",
   "main": "index.js",
-  "homepage": "https://github.com/wendigo/action-testng-report#readme",
+  "homepage": "https://github.com/starburstdata/action-testng-report#readme",
   "scripts": {
     "eslint": "eslint .",
     "eslint-fix": "eslint --fix .",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wendigo/action-testng-report"
+    "url": "git+https://github.com/starburstdata/action-testng-report"
   },
   "keywords": [
     "GitHub",
@@ -24,20 +24,20 @@
     "Surefire"
   ],
   "bugs": {
-    "url": "https://github.com/wendigo/action-testng-report/issues"
+    "url": "https://github.com/starburstdata/action-testng-report/issues"
   },
   "dependencies": {
     "@actions/core": "1.2.4",
-    "@actions/github": "2.2.0",
+    "@actions/github": "4.0.0",
     "@actions/glob": "0.1.0",
     "xml-js": "1.6.11"
   },
   "devDependencies": {
-    "@octokit/fixtures": "21.0.5",
-    "@zeit/ncc": "0.22.1",
+    "@octokit/fixtures": "21.0.9",
+    "@zeit/ncc": "0.22.3",
     "enzyme": "3.11.0",
-    "eslint": "7.0.0",
-    "jest": "26.0.1",
-    "nock": "12.0.3"
+    "eslint": "7.6.0",
+    "jest": "26.2.2",
+    "nock": "13.0.3"
   }
 }

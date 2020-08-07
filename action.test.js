@@ -28,13 +28,13 @@ describe('action should work', () => {
         jest.spyOn(core, 'debug').mockImplementation(jest.fn());
 
         github.context.payload.pull_request = {
-            html_url: 'https://github.com/wendigo/action-testng-report',
+            html_url: 'https://github.com/starburstdata/action-testng-report',
             head: { sha: 'sha123' }
         };
 
         jest.spyOn(github.context, 'repo', 'get').mockImplementation(() => {
             return {
-                owner: 'wendigo',
+                owner: 'starburstdata',
                 repo: 'action-testng-report'
             };
         });
@@ -59,7 +59,7 @@ describe('action should work', () => {
     it('should parse testng reports and send a check run to GitHub', async () => {
         let request = null;
         const scope = nock('https://api.github.com')
-            .post('/repos/wendigo/action-testng-report/check-runs', body => {
+            .post('/repos/starburstdata/action-testng-report/check-runs', body => {
                 request = body;
                 return body;
             })
@@ -74,7 +74,7 @@ describe('action should work', () => {
         inputs.report_paths = '**/ok/target/surefire-reports/testng-results.xml';
         let request = null;
         const scope = nock('https://api.github.com')
-            .post('/repos/wendigo/action-testng-report/check-runs', body => {
+            .post('/repos/starburstdata/action-testng-report/check-runs', body => {
                 request = body;
                 return body;
             })
@@ -89,7 +89,7 @@ describe('action should work', () => {
         inputs.report_paths = '**/xxx/*.xml';
         let request = null;
         const scope = nock('https://api.github.com')
-            .post('/repos/wendigo/action-testng-report/check-runs', body => {
+            .post('/repos/starburstdata/action-testng-report/check-runs', body => {
                 request = body;
                 return body;
             })
@@ -106,7 +106,7 @@ describe('action should work', () => {
 
         let request = null;
         const scope = nock('https://api.github.com')
-            .post('/repos/wendigo/action-testng-report/check-runs', body => {
+            .post('/repos/starburstdata/action-testng-report/check-runs', body => {
                 request = body;
                 return body;
             })
@@ -125,7 +125,7 @@ describe('action should work', () => {
 
         let request = null;
         const scope = nock('https://api.github.com')
-            .post('/repos/wendigo/action-testng-report/check-runs', body => {
+            .post('/repos/starburstdata/action-testng-report/check-runs', body => {
                 request = body;
                 return body;
             })
@@ -145,7 +145,7 @@ describe('action should work', () => {
 
         let request = null;
         const scope = nock('https://api.github.com')
-            .post('/repos/wendigo/action-testng-report/check-runs', body => {
+            .post('/repos/starburstdata/action-testng-report/check-runs', body => {
                 request = body;
                 return body;
             })
