@@ -15,6 +15,11 @@ jest.setTimeout(20000);
 
 let inputs = {};
 
+let sortAnnotations = request => {
+    request.output.annotations = request.output.annotations.sort((a, b) => a.message.localeCompare(b.message));
+    return request;
+};
+
 describe('action should work', () => {
     beforeAll(() => {
         // https://github.com/actions/checkout/blob/v2.1.0/__test__/input-helper.test.ts
@@ -67,7 +72,7 @@ describe('action should work', () => {
         await action();
         scope.done();
 
-        expect(request).toMatchObject(finishedWithFailures);
+        expect(sortAnnotations(request)).toMatchObject(sortAnnotations(finishedWithFailures));
     });
 
     it('should send all ok if no tests were broken', async () => {
