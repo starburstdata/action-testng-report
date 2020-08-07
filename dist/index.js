@@ -8556,7 +8556,7 @@ const { parseTestReports, formatMilliseconds, partition, unique } = __webpack_re
 const MAX_ANNOTATIONS_PER_REQUEST = 50;
 
 const addAnnotations = async (check, title, partitions) => {
-    const octokit = new github.GitHub(core.getInput('github_token'));
+    const octokit = github.getOctokit(core.getInput('github_token'));
     let total = 0;
 
     for (let i = 0; i < partitions.length; i++) {
@@ -8587,6 +8587,7 @@ const action = async () => {
     const check_name = core.getInput('check_name');
     const failIfEmpty = (core.getInput('fail_if_empty') || "false") === "true";
     const showSkipped = (core.getInput('show_skipped') || "false") === "true";
+
     const updateExistingCheck = (core.getInput('update_existing_check') || "false") === "true";
     const removeDuplicates = (core.getInput('remove_duplicates') || "true") === "true";
 
@@ -8595,7 +8596,7 @@ const action = async () => {
     let { total, passed, failed, ignored, skipped, annotations, durationMs } = await parseTestReports(reportPaths, showSkipped);
     const foundResults = total > 0 || !failIfEmpty;
 
-    const octokit = new github.GitHub(core.getInput('github_token'));
+    const octokit = github.getOctokit(core.getInput('github_token'));
 
     let stats = [
         `${passed} passed`,

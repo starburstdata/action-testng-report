@@ -12,6 +12,7 @@
     <modules>
         <module>utils</module>
         <module>email</module>
+	<module>ok</module>
     </modules>
 
     <properties>

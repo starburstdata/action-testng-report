@@ -15,14 +15,14 @@ jobs:
           java-version: 11
       - run: cd tests && mvn clean test --batch-mode -Dmaven.test.failure.ignore=true
       - name: Update existing check report
-        uses: starburstdata/action-testng-report@master
+        uses: starburstdata/action-testng-report@${{ github.ref }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           check_name: build
           update_existing_check: true
           report_paths: "**/testng-results.xml"
       - name: Create new check report
-        uses: starburstdata/action-testng-report@master
+        uses: starburstdata/action-testng-report@${{ github.ref }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           check_name: new check name
