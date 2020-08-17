@@ -92,8 +92,10 @@ const action = async () => {
 
         const existingChecks = await octokit.checks.listForRef(listExistingChecks);
 
-        if (!(existingChecks.data && existingChecks.data.check_runs.length == 1)) {
+        if (!existingChecks.data) {
             core.setFailed(`Could not find existing check '${check_name}'`);
+        } else if (existingChecks.data.check_runs.length > 1) {
+            core.info(`Found multiple checks for name '${check_name}': ${JSON.stringify(existingChecks.data.check_runs)}`)
         }
 
         const existingCheck = existingChecks.data.check_runs.slice(-1)[0];
