@@ -2055,6 +2055,7 @@ const parseTestReports = async (reportPaths, showSkipped) => {
     let ignored = 0;
     let skipped = 0;
     let durationMs = 0;
+    let files = [];
 
     for await (const file of globber.globGenerator()) {
         const { passed: p, failed: f, ignored: i, skipped: s, annotations: a, durationMs: d } = await parseFile(file);
@@ -2064,11 +2065,12 @@ const parseTestReports = async (reportPaths, showSkipped) => {
         skipped += showSkipped ? s : 0;
         annotations = annotations.concat(a);
         durationMs += d;
+        files.push(file);
     }
 
     const total = passed + failed + ignored + skipped;
 
-    return { total, passed, failed, ignored, skipped, annotations, durationMs };
+    return { total, passed, failed, ignored, skipped, annotations, durationMs, files };
 };
 
 module.exports = { resolveFileAndLine, resolvePath, parseFile, parseTestReports, formatMilliseconds, partition, unique };
@@ -8593,8 +8595,10 @@ const action = async () => {
 
     core.info(`Running action with failIfEmpty: ${failIfEmpty}, showSkipped: ${showSkipped}, updateExistingCheck: ${updateExistingCheck}`)
 
-    let { total, passed, failed, ignored, skipped, annotations, durationMs } = await parseTestReports(reportPaths, showSkipped);
+    let { total, passed, failed, ignored, skipped, annotations, durationMs, files } = await parseTestReports(reportPaths, showSkipped);
     const foundResults = total > 0 || !failIfEmpty;
+
+    core.debug(`Found ${total} test tests in testng-results.xml files: ${files.join(', ')}`)
 
     const octokit = github.getOctokit(core.getInput('github_token'));
 
@@ -8612,8 +8616,6 @@ const action = async () => {
         ? `${total} tests: ${stats.join(", ")}. Elapsed ${formatMilliseconds(durationMs)}.`
         : 'No TestNG reports found!';
 
-    core.info(`Result: ${title}`);
-
     const pullRequest = github.context.payload.pull_request;
     const link = pullRequest && pullRequest.html_url || github.context.ref;
     const conclusion = (foundResults && annotations.length === 0) ? 'success' : 'failure';
@@ -8625,12 +8627,10 @@ const action = async () => {
     if (removeDuplicates) {
         const count = annotations.length;
         annotations = unique(annotations, annotation => annotation.title);
-        core.info(`Removed ${annotations.length - count} duplicates.`)
+        core.debug(`Removed ${annotations.length - count} duplicates.`)
     }
 
     let annotationsPartitioned = partition(annotations, MAX_ANNOTATIONS_PER_REQUEST);
-
-    console.debug(`Partitioned ${annotations.length} annotations into ${annotationsPartitioned.length} partitions`);
 
     if (updateExistingCheck) {
         core.info(`Updating check '${check_name}' with status '${status}' and conclusion '${conclusion}' to ${link} (sha: ${head_sha})`);
@@ -8646,7 +8646,7 @@ const action = async () => {
         if (!existingChecks.data) {
             core.setFailed(`Could not find existing check '${check_name}'`);
         } else if (existingChecks.data.check_runs.length > 1) {
-            core.info(`Found multiple checks for name '${check_name}': ${JSON.stringify(existingChecks.data.check_runs)}`)
+            core.info(`Found multiple checks with name '${check_name}': ${JSON.stringify(existingChecks.data.check_runs)}`)
         }
 
         const existingCheck = existingChecks.data.check_runs.slice(-1)[0];
