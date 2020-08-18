@@ -7,8 +7,7 @@ const {
     finishedSuccess,
     nothingFound,
     masterSuccess,
-    nothingFoundSuccess,
-    masterSuccessWithSkipped
+    nothingFoundSuccess
 } = require('./action.test.fixtures');
 
 jest.setTimeout(200000);
@@ -52,7 +51,6 @@ describe('action should work', () => {
             github_token: 'GITHUB_TOKEN',
             check_name: 'Test Report',
             fail_if_empty: "true",
-            show_skipped: "false",
             update_existing_check: "false"
         };
     });
@@ -139,25 +137,5 @@ describe('action should work', () => {
         scope.done();
 
         expect(request).toMatchObject(masterSuccess);
-    });
-
-    it('should send reports with skipped', async () => {
-        inputs.report_paths = '**/ok/target/surefire-reports/testng-results.xml';
-        inputs.show_skipped = "true";
-        github.context.payload.pull_request = undefined;
-        github.context.sha = 'masterSha123';
-        github.context.ref = 'refs/heads/master';
-
-        let request = null;
-        const scope = nock('https://api.github.com')
-            .post('/repos/starburstdata/action-testng-report/check-runs', body => {
-                request = body;
-                return body;
-            })
-            .reply(200, {});
-        await action();
-        scope.done();
-
-        expect(request).toMatchObject(masterSuccessWithSkipped);
     });
 });

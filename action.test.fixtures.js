@@ -4,7 +4,7 @@ const finishedWithFailures = {
     status: 'completed',
     conclusion: 'failure',
     output: {
-        title: expect.stringMatching(/19 tests: 7 passed, 12 failed. Elapsed \d+ms.$/),
+        title: expect.stringMatching(/20 tests: 7 passed, 12 failed, 1 ignored. Elapsed \d+ms.$/),
         summary: '',
         annotations: [
             {
@@ -149,7 +149,7 @@ const finishedSuccess = {
     status: 'completed',
     conclusion: 'success',
     output: {
-        title: expect.stringMatching(/1 tests: 1 passed, 0 failed. Elapsed \d+ms.$/),
+        title: expect.stringMatching(/1 tests: 1 passed. Elapsed \d+ms.$/),
         summary: '',
         annotations: []
     }
@@ -161,19 +161,7 @@ const masterSuccess = {
     status: 'completed',
     conclusion: 'success',
     output: {
-        title: expect.stringMatching(/1 tests: 1 passed, 0 failed. Elapsed \d+ms.$/),
-        summary: '',
-        annotations: []
-    }
-};
-
-const masterSuccessWithSkipped = {
-    name: 'Test Report',
-    head_sha: 'masterSha123',
-    status: 'completed',
-    conclusion: 'success',
-    output: {
-        title: expect.stringMatching(/1 tests: 1 passed, 0 failed, 0 ignored, 0 skipped. Elapsed \d+ms.$/),
+        title: expect.stringMatching(/1 tests: 1 passed. Elapsed \d+ms.$/),
         summary: '',
         annotations: []
     }
@@ -197,10 +185,10 @@ const nothingFoundSuccess = {
     status: 'completed',
     conclusion: 'success',
     output: {
-        title: '0 tests: 0 passed, 0 failed. Elapsed 0ms.',
+        title: 'No TestNG reports found!',
         summary: '',
         annotations: []
     }
 };
 
-module.exports = { finishedWithFailures, finishedSuccess, nothingFound, masterSuccess, nothingFoundSuccess, masterSuccessWithSkipped };
+module.exports = { finishedWithFailures, finishedSuccess, nothingFound, masterSuccess, nothingFoundSuccess };
