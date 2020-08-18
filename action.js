@@ -35,37 +35,33 @@ const action = async () => {
 
     const check_name = core.getInput('check_name');
     const failIfEmpty = (core.getInput('fail_if_empty') || "false") === "true";
-    const showSkipped = (core.getInput('show_skipped') || "false") === "true";
-
     const updateExistingCheck = (core.getInput('update_existing_check') || "false") === "true";
     const removeDuplicates = (core.getInput('remove_duplicates') || "true") === "true";
 
-    core.info(`Running action with failIfEmpty: ${failIfEmpty}, showSkipped: ${showSkipped}, updateExistingCheck: ${updateExistingCheck}`)
+    core.info(`Running action with failIfEmpty: ${failIfEmpty}, updateExistingCheck: ${updateExistingCheck}`)
 
-    let { total, passed, failed, ignored, skipped, annotations, durationMs } = await parseTestReports(reportPaths, showSkipped);
-    const foundResults = total > 0 || !failIfEmpty;
+    let { total, passed, failed, ignored, skipped, annotations, durationMs, files } = await parseTestReports(reportPaths);
+
+    core.debug(`Found ${total} test tests in testng-results.xml files: ${files.join(', ')}`)
 
     const octokit = github.getOctokit(core.getInput('github_token'));
 
     let stats = [
-        `${passed} passed`,
-        `${failed} failed`
-    ];
+        {name: 'passed', value: passed},
+        {name: 'failed', value: failed},
+        {name: 'ignored', value: ignored},
+        {name: 'skipped', value: skipped}
+    ]
+        .filter(test => test.value > 0)
+        .map(test => `${test.value} ${test.name}`);
 
-    if (showSkipped) {
-        stats.push(`${ignored} ignored`);
-        stats.push(`${skipped} skipped`);
-    }
-
-    const title = foundResults
+    const title = stats.length > 0
         ? `${total} tests: ${stats.join(", ")}. Elapsed ${formatMilliseconds(durationMs)}.`
         : 'No TestNG reports found!';
 
-    core.info(`Result: ${title}`);
-
     const pullRequest = github.context.payload.pull_request;
     const link = pullRequest && pullRequest.html_url || github.context.ref;
-    const conclusion = (foundResults && annotations.length === 0) ? 'success' : 'failure';
+    const conclusion = ((stats.length > 0 || !failIfEmpty) && annotations.length === 0) ? 'success' : 'failure';
     const status = 'completed';
     const head_sha = pullRequest && pullRequest.head.sha || github.context.sha;
 
@@ -74,12 +70,10 @@ const action = async () => {
     if (removeDuplicates) {
         const count = annotations.length;
         annotations = unique(annotations, annotation => annotation.title);
-        core.info(`Removed ${annotations.length - count} duplicates.`)
+        core.debug(`Removed ${annotations.length - count} duplicates.`)
     }
 
     let annotationsPartitioned = partition(annotations, MAX_ANNOTATIONS_PER_REQUEST);
-
-    console.debug(`Partitioned ${annotations.length} annotations into ${annotationsPartitioned.length} partitions`);
 
     if (updateExistingCheck) {
         core.info(`Updating check '${check_name}' with status '${status}' and conclusion '${conclusion}' to ${link} (sha: ${head_sha})`);
@@ -92,8 +86,10 @@ const action = async () => {
 
         const existingChecks = await octokit.checks.listForRef(listExistingChecks);
 
-        if (!(existingChecks.data && existingChecks.data.check_runs.length == 1)) {
+        if (!existingChecks.data) {
             core.setFailed(`Could not find existing check '${check_name}'`);
+        } else if (existingChecks.data.check_runs.length > 1) {
+            core.info(`Found multiple checks with name '${check_name}': ${JSON.stringify(existingChecks.data.check_runs)}`)
         }
 
         const existingCheck = existingChecks.data.check_runs.slice(-1)[0];

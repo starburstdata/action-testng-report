@@ -193,7 +193,7 @@ async function parseFile(file) {
     return { total, passed, failed, ignored, skipped, annotations, durationMs };
 }
 
-const parseTestReports = async (reportPaths, showSkipped) => {
+const parseTestReports = async (reportPaths) => {
     const globber = await glob.create(reportPaths, { followSymbolicLinks: false });
     let annotations = [];
     let passed = 0;
@@ -201,20 +201,22 @@ const parseTestReports = async (reportPaths, showSkipped) => {
     let ignored = 0;
     let skipped = 0;
     let durationMs = 0;
+    let files = [];
 
     for await (const file of globber.globGenerator()) {
         const { passed: p, failed: f, ignored: i, skipped: s, annotations: a, durationMs: d } = await parseFile(file);
         passed += p;
         failed += f;
-        ignored += showSkipped ? i : 0;
-        skipped += showSkipped ? s : 0;
+        ignored += i;
+        skipped += s;
         annotations = annotations.concat(a);
         durationMs += d;
+        files.push(file);
     }
 
     const total = passed + failed + ignored + skipped;
 
-    return { total, passed, failed, ignored, skipped, annotations, durationMs };
+    return { total, passed, failed, ignored, skipped, annotations, durationMs, files };
 };
 
 module.exports = { resolveFileAndLine, resolvePath, parseFile, parseTestReports, formatMilliseconds, partition, unique };
