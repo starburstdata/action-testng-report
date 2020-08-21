@@ -137,7 +137,8 @@ async function parseFile(file) {
         .map(suite => toArray(suite.test))
         .flat(1)
         .map(test => toArray(test.class))
-        .flat(1);
+        .flat(1)
+        .filter(test => typeof test === 'string' && test);
 
     const groups = toArray(results.suite)
         .map(suite => toArray(suite.groups))

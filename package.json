@@ -9,7 +9,7 @@
   "scripts": {
     "eslint": "eslint .",
     "eslint-fix": "eslint --fix .",
-    "package": "ncc build index.js -o dist",
+    "package": "ncc build -m index.js -o dist",
     "test": "jest",
     "test-ci": "jest --ci"
   },
