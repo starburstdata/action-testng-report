@@ -42,8 +42,12 @@ const action = async () => {
 
     core.info(`Running action with failIfEmpty: ${failIfEmpty}, showSkipped: ${showSkipped}, updateExistingCheck: ${updateExistingCheck}`)
 
-    let { total, passed, failed, ignored, skipped, annotations, durationMs } = await parseTestReports(reportPaths, showSkipped);
+    let { total, passed, failed, ignored, skipped, annotations, durationMs, errors } = await parseTestReports(reportPaths, showSkipped);
     const foundResults = total > 0 || !failIfEmpty;
+
+    if (errors.length > 0) {
+        errors.forEach(error => core.debug(`Could not fully parse ${error.file}: ${error.error}`));
+    }
 
     const octokit = github.getOctokit(core.getInput('github_token'));
 
