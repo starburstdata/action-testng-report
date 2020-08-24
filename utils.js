@@ -201,20 +201,26 @@ const parseTestReports = async (reportPaths, showSkipped) => {
     let ignored = 0;
     let skipped = 0;
     let durationMs = 0;
+    let errors = [];
 
     for await (const file of globber.globGenerator()) {
-        const { passed: p, failed: f, ignored: i, skipped: s, annotations: a, durationMs: d } = await parseFile(file);
-        passed += p;
-        failed += f;
-        ignored += showSkipped ? i : 0;
-        skipped += showSkipped ? s : 0;
-        annotations = annotations.concat(a);
-        durationMs += d;
+        try {
+            const { passed: p, failed: f, ignored: i, skipped: s, annotations: a, durationMs: d } = await parseFile(file);
+            passed += p;
+            failed += f;
+            ignored += showSkipped ? i : 0;
+            skipped += showSkipped ? s : 0;
+            annotations = annotations.concat(a);
+            durationMs += d;
+        }
+        catch (e) {
+            errors.push({file: file, error: e});
+        }
     }
 
     const total = passed + failed + ignored + skipped;
 
-    return { total, passed, failed, ignored, skipped, annotations, durationMs };
+    return { total, passed, failed, ignored, skipped, annotations, durationMs, errors };
 };
 
 module.exports = { resolveFileAndLine, resolvePath, parseFile, parseTestReports, formatMilliseconds, partition, unique };
