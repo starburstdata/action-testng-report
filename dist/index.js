@@ -9983,6 +9983,8 @@ const action = async () => {
     const updateExistingCheck = (core.getInput('update_existing_check') || "false") === "true";
     const removeDuplicates = (core.getInput('remove_duplicates') || "true") === "true";
 
+    const skipPublishing = core.getInput('skip_publishing') === 'true';
+
     core.info(`Running action with failIfEmpty: ${failIfEmpty}, showSkipped: ${showSkipped}, updateExistingCheck: ${updateExistingCheck}`)
 
     let { total, passed, failed, ignored, skipped, annotations, durationMs, errors } = await parseTestReports(reportPaths, showSkipped);
@@ -9990,6 +9992,11 @@ const action = async () => {
 
     if (errors.length > 0) {
         errors.forEach(error => core.debug(`Could not fully parse ${error.file}: ${error.error}`));
+    }
+
+    if (skipPublishing) {
+        core.info('Not publishing test result due to skip_publishing=true');
+        return;
     }
 
     const octokit = github.getOctokit(core.getInput('github_token'));
