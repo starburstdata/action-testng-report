@@ -53,7 +53,8 @@ describe('action should work', () => {
             check_name: 'Test Report',
             fail_if_empty: "true",
             show_skipped: "false",
-            update_existing_check: "false"
+            update_existing_check: "false",
+            skip_publishing: 'false'
         };
     });
 
@@ -139,6 +140,14 @@ describe('action should work', () => {
         scope.done();
 
         expect(request).toMatchObject(masterSuccess);
+    });
+
+    it('should not send report on skip_publishing', async () => {
+        inputs.skip_publishing = 'true';
+
+        // nock error if the request is sent
+
+        await action();
     });
 
     it('should send reports with skipped', async () => {

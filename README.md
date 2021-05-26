@@ -32,6 +32,10 @@ Optional. Defaults to true. Fail if there are none test results found.
 ### `show_skipped`
 
 Optional. Defaults to false. Show skipped tests count.
+t
+### `skip_publishing`
+
+Optional. Skip the test report publishing (check run creation). The default is `false`.
 
 ### `update_existing_check`
 
