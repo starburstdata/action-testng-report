@@ -1,11 +1,15 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
+const { retry } = require("@octokit/plugin-retry");
+const { Octokit } = require("@octokit/core");
+const RetryingOctokit = Octokit.plugin(retry);
+
 const { parseTestReports, formatMilliseconds, partition, unique } = require('./utils.js');
 
 const MAX_ANNOTATIONS_PER_REQUEST = 50;
 
 const addAnnotations = async (check, title, partitions) => {
-    const octokit = github.getOctokit(core.getInput('github_token'));
+    const octokit = new RetryingOctokit({auth: core.getInput('github_token'), request: { retries: 3 }});
     let total = 0;
 
     for (let i = 0; i < partitions.length; i++) {
