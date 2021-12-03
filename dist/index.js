@@ -9962,7 +9962,7 @@ const addAnnotations = async (check, title, partitions) => {
             }
         };
 
-        await octokit.checks.update(updateCheckRequest);
+        await octokit.rest.checks.update(updateCheckRequest);
         total += partitions[i].length;
 
         core.debug(`Update request for check ${check.id} is ${JSON.stringify(updateCheckRequest)}`);
@@ -10037,7 +10037,7 @@ const action = async () => {
             check_name
         };
 
-        const existingChecks = await octokit.checks.listForRef(listExistingChecks);
+        const existingChecks = await octokit.rest.checks.listForRef(listExistingChecks);
 
         if (!(existingChecks.data && existingChecks.data.check_runs.length == 1)) {
             core.setFailed(`Could not find existing check '${check_name}'`);
@@ -10061,7 +10061,7 @@ const action = async () => {
 
         core.debug(`Updating check ${existingCheck.id} with ${JSON.stringify(updateCheckRequest)}`);
 
-        await octokit.checks.update(updateCheckRequest);
+        await octokit.rest.checks.update(updateCheckRequest);
 
         checkToUpdate = existingCheck;
     }
@@ -10081,7 +10081,7 @@ const action = async () => {
             }
         };
 
-        let response = await octokit.checks.create(createCheckRequest);
+        let response = await octokit.rest.checks.create(createCheckRequest);
 
         checkToUpdate = response.data;
     }
