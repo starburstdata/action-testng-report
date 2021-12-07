@@ -31,6 +31,9 @@ inputs:
     description: 'Fail check if test reports are empty or not found'
     required: false
     default: true
+  commit:
+    description: 'commit sha to update the status'
+    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'

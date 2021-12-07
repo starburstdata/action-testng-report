@@ -20,6 +20,11 @@ Optional. [Glob](https://github.com/actions/toolkit/tree/master/packages/glob) e
 
 Optional. Check name to use when creating a check run. The default is `Test Report`.
 
+### `commit`
+
+Optional. The commit sha to update the status. This is useful when you run it with `workflow_run`.
+
+
 ### `fail_if_empty`
 
 Optional. Defaults to true. Fail if there are none test results found.

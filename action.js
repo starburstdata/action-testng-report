@@ -24,7 +24,7 @@ const addAnnotations = async (check, title, partitions) => {
             }
         };
 
-        await octokit.checks.update(updateCheckRequest);
+        await octokit.rest.checks.update(updateCheckRequest);
         total += partitions[i].length;
 
         core.debug(`Update request for check ${check.id} is ${JSON.stringify(updateCheckRequest)}`);
@@ -38,6 +38,7 @@ const action = async () => {
     core.info(`Going to parse results form ${reportPaths}`);
 
     const check_name = core.getInput('check_name');
+    const commit = core.getInput('commit');
     const failIfEmpty = (core.getInput('fail_if_empty') || "false") === "true";
     const showSkipped = (core.getInput('show_skipped') || "false") === "true";
 
@@ -75,7 +76,7 @@ const action = async () => {
     const link = pullRequest && pullRequest.html_url || github.context.ref;
     const conclusion = (foundResults && annotations.length === 0) ? 'success' : 'failure';
     const status = 'completed';
-    const head_sha = pullRequest && pullRequest.head.sha || github.context.sha;
+    const head_sha = commit || pullRequest && pullRequest.head.sha || github.context.sha;
 
     let checkToUpdate;
 
@@ -98,7 +99,7 @@ const action = async () => {
             check_name
         };
 
-        const existingChecks = await octokit.checks.listForRef(listExistingChecks);
+        const existingChecks = await octokit.rest.checks.listForRef(listExistingChecks);
 
         if (!(existingChecks.data && existingChecks.data.check_runs.length == 1)) {
             core.setFailed(`Could not find existing check '${check_name}'`);
@@ -122,7 +123,7 @@ const action = async () => {
 
         core.debug(`Updating check ${existingCheck.id} with ${JSON.stringify(updateCheckRequest)}`);
 
-        await octokit.checks.update(updateCheckRequest);
+        await octokit.rest.checks.update(updateCheckRequest);
 
         checkToUpdate = existingCheck;
     }
@@ -142,7 +143,7 @@ const action = async () => {
             }
         };
 
-        let response = await octokit.checks.create(createCheckRequest);
+        let response = await octokit.rest.checks.create(createCheckRequest);
 
         checkToUpdate = response.data;
     }
