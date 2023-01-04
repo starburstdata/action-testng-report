@@ -35,5 +35,5 @@ inputs:
     description: 'commit sha to update the status'
     required: false
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'
