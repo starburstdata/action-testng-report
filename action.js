@@ -72,7 +72,7 @@ const action = async () => {
         return;
     }
 
-    const octokit = github.getOctokit(core.getInput('github_token'));
+    const octokit = github.getOctokit(core.getInput('github_token'), {request: fetch});
 
     let stats = [
         `${passed} passed`,

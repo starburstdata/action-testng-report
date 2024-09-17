@@ -7,6 +7,7 @@ inputs:
   github_token:
     description: 'GITHUB_TOKEN'
     required: true
+    default: ${{ github.token }}
   report_paths:
     description: 'Testng xml report paths in glob format'
     required: false
@@ -40,5 +41,5 @@ inputs:
     default: 'false'
 
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'
