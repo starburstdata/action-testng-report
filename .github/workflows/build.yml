@@ -9,8 +9,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v6.0.2
+      - uses: actions/setup-java@v5.2.0
         with:
           java-version: 11
           distribution: zulu
@@ -30,9 +30,9 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           check_name: new check name
           report_paths: "**/testng-results.xml"
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6.3.0
         with:
-          node-version: 20
+          node-version: 24
       - run: npm install
       - run: npm run eslint
       - run: npm run test
